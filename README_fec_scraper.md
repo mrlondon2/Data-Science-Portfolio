@@ -112,19 +112,19 @@ install.packages(c("httr",      # HTTP requests and API calls
 4. Run script
 
 # Script automatically:
-# 1. Collects data from FEC API for all specified cycles
-# 2. Processes and cleans the data
-# 3. Applies industry classification
-# 4. Generates comprehensive analysis
-# 5. Exports results to CSV files
+1. Collects data from FEC API for all specified cycles
+2. Processes and cleans the data
+3. Applies industry classification
+4. Generates comprehensive analysis
+5. Exports results to CSV files
 
 # Output files created in oppo_research_exports/:
-# - complete_dataset.csv (all records with classifications)
-# - industry_summary.csv (contributions by industry)
-# - geographic_summary.csv (WI vs. out-of-state breakdown)
-# - donor_size_summary.csv (small vs. large donor analysis)
-# - top_50_donors.csv (career totals for top donors)
-# - cycle_summary.csv (year-by-year fundraising trends)
+ - complete_dataset.csv (all records with classifications)
+ - industry_summary.csv (contributions by industry)
+ - geographic_summary.csv (WI vs. out-of-state breakdown)
+ - donor_size_summary.csv (small vs. large donor analysis)
+ - top_50_donors.csv (career totals for top donors)
+ - cycle_summary.csv (year-by-year fundraising trends)
 
 ## Analysis Outputs
 
