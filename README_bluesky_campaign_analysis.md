@@ -1,10 +1,10 @@
 # Bluesky Campaign Analytics
 
-**End-to-end social media intelligence pipeline** — Bluesky AT Protocol → Python NLP → Google BigQuery → Looker Studio
+**End-to-end social media intelligence pipeline** - Bluesky AT Protocol -> Python NLP -> Google BigQuery -> Looker Studio
 
 Built for the Randy Bryce WI-01 congressional campaign to track voter sentiment, monitor engagement patterns, and surface rapid-response opportunities on an emerging platform.
 
-📊 [Live Dashboard](your-looker-studio-link) · 💻 [Source Code](https://github.com/mrlondon2)
+[Live Dashboard](https://lookerstudio.google.com/s/uD90FoHE3pc)
 
 ---
 
@@ -12,13 +12,12 @@ Built for the Randy Bryce WI-01 congressional campaign to track voter sentiment,
 
 Collects posts from the Bluesky API via keyword search and candidate feed monitoring, runs TextBlob sentiment analysis, loads structured results into a normalized BigQuery schema, and powers an interactive Looker Studio dashboard for non-technical campaign staff.
 
-**Key results from a 3-day proof-of-concept (Feb 15–17, 2026, n=205 posts):**
-- 34.6% positive vs. 12.7% negative sentiment (2.7:1 ratio)
-- Feb 12–13 endorsement announcement generated 40K+ interactions — largest single engagement spike in the window
-- Randy Bryce held 96% share of voice vs. opponent on the platform
+**Key results from a 7 day proof-of-concept (Feb 15–22, 2026, n=370 posts):**
+- 33.8% positive vs. 12.5% negative sentiment (2.7:1 ratio)
+- Feb 7th post referencing President Obama generated over 340 interactions, largest single engagement spike in the window so far (on Bluesky)
 - Healthcare dominates conversation: `#MedicalSchool`, `#MedSky`, `#SciSky` were top trending hashtags
 
-> **Statistical note:** 205 posts over 3 days is a proof-of-concept, not a statistically robust sample. Bluesky's limited political adoption means these results should not be generalized to the WI-01 electorate. A production system would require multi-platform coverage and larger sample sizes for inference.
+> **Statistical note:** 370 posts over 7 days is a proof-of-concept, not a statistically robust sample. Bluesky's limited political adoption means these results should not be generalized to the WI-01 electorate. A production system would require multi-platform coverage and larger sample sizes for inference, taking much more time that I do not have during the spring semester.
 
 ---
 
@@ -26,7 +25,7 @@ Collects posts from the Bluesky API via keyword search and candidate feed monito
 
 ```
 Bluesky API          Python              Google Cloud         Visualization
-(AT Protocol)   →   (collection,    →   (BigQuery —      →   (Looker Studio —
+(AT Protocol)   ->   (collection,    ->   (BigQuery-      ->   (Looker Studio:
                      NLP, ETL)           4-table schema)      interactive dashboard)
 ```
 
@@ -51,13 +50,13 @@ Bluesky API          Python              Google Cloud         Visualization
 ## Code Structure
 
 ```
-bluesky_campaign_analysis.py   # ~600 lines, fully modular
+bluesky_campaign_analysis.py   # nearly 600 lines, fully modular
 ├── BlueskyConfig              # Env-based config + validation
 ├── BlueskyDataCollector       # API auth, feed collection, keyword search, deduplication
 ├── SentimentAnalyzer          # TextBlob NLP: polarity, subjectivity, hashtag/mention extraction
 ├── DataProcessor              # ETL: post enrichment, daily aggregates, share-of-voice metrics
-├── BigQueryExporter           # GCP auth, schema creation, DataFrame → BQ with error handling
-└── CampaignAnalysisTool       # Orchestrator: initialize → collect → process → export → summarize
+├── BigQueryExporter           # GCP auth, schema creation, DataFrame -> BQ with error handling
+└── CampaignAnalysisTool       # Orchestrator: initialize -> collect -> process -> export -> summarize
 ```
 
 ---
@@ -117,17 +116,17 @@ SENTIMENT BREAKDOWN:
   Negative:  26 (12.7%)
 ```
 
-**BigQuery tables** — queryable via SQL, auto-connected to Looker Studio dashboard
+**BigQuery tables** - queryable via SQL, autoconnected to Looker Studio dashboard
 
-**Local CSVs** — timestamped exports (`export_posts_YYYYMMDD_HHMMSS.csv`, etc.)
+**Local CSVs** - timestamped exports (`export_posts_YYYYMMDD_HHMMSS.csv`, etc.)
 
 ---
 
 ## Limitations
 
-- **Sample size:** 205 posts is a functional demonstration, not a statistically significant dataset
+- **Sample size:** 390 posts is a functional demonstration, not a statistically significant dataset
 - **Platform bias:** Bluesky users are not representative of WI-01 voters; results can't be generalized
-- **Sentiment model:** TextBlob is ~80% accurate and struggles with political sarcasm and nuance; production use would warrant fine-tuning on political text or a transformer-based model
+- **Sentiment model:** TextBlob is about 80% accurate and struggles with political sarcasm and nuance; production use would warrant fine-tuning on political text or a transformer-based model
 - **Single platform:** A real social listening system would require Twitter/X and Facebook coverage
 - **No causal claims:** Engagement and sentiment correlations do not establish causation
 
@@ -138,26 +137,6 @@ SENTIMENT BREAKDOWN:
 - Unit test suite (`pytest`) for core pipeline functions
 - Fine-tuned BERT or `cardiffnlp/twitter-roberta` for political sentiment classification
 - Network analysis of repost/reply graphs to identify high-influence nodes
-- Multi-platform ingestion (Twitter/X API, CrowdTangle)
+- Multiplatform ingestion (Twitter/X API, CrowdTangle)
 - Statistical significance testing and confidence intervals on daily sentiment shifts
 - Geographic filtering for district-level analysis
-
----
-
-## Relevance to Campaign Data Work
-
-This project directly mirrors infrastructure used in professional campaign analytics:
-
-- **Identity & network analysis** — deduplication logic and mention-graph extraction are the foundation of influence network mapping
-- **Polling tool support** — time-series sentiment tracking can complement internal polling by flagging message resonance before a full survey is fielded
-- **Non-technical communication** — the Looker Studio dashboard is designed specifically for campaign finance and communications staff, not data teams
-- **Rigorous limitations** — understanding when *not* to generalize from data is as important as the analysis itself
-
----
-
-## Project Info
-
-**Status:** Portfolio demonstration / proof-of-concept  
-**Data window:** Feb 15–17, 2026 (n = 205 posts)  
-**License:** MIT  
-**Author:** Matthew London · [mrmatthewlondon@gmail.com](mailto:mrmatthewlondon@gmail.com) · [github.com/mrlondon2](https://github.com/mrlondon2)
